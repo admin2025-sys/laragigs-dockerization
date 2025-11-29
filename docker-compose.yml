@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  laravel:
+    build:
+      context: .
+    container_name: laravel
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - laravel
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laragigs
+
+  phpmyadmin:
+    container_name: laravel_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - laravel
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+
+
+networks:
+  laravel:
+
+volumes:
+  mysql_data:
