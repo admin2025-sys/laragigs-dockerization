@@ -8,6 +8,8 @@ services:
       - "80:80"
     volumes:
       - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+      - ./bootstrap/cache:/var/www/html/bootstrap/cache
     depends_on:
       - mysql
     networks:
